@@ -22,10 +22,10 @@ function receivePostsFailure (error) {
 	}
 };
 
-export function handlePosts() {
+export function handlePosts(category) {
   return dispatch => {
     dispatch(receivePostsBegin());
-    return getPosts()
+    return getPosts(category)
       .then(posts => {
         dispatch(receivePostsSuccess(posts));
         return posts;
