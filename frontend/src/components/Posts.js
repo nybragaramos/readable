@@ -4,17 +4,13 @@ import Post from './Post'
 class Posts extends Component {
   render() {
 
-    const { posts, error } = this.props;
-
-    if (error) {
-      return (<div>Error! {error.message}</div>);
-    }
+    const { posts, category } = this.props;
 
     return (
       <div>
         { 
           posts.map(post => {
-              return (<Post key={post.id} post={post}/>)
+              return (<Post key={post.id} post={post} category={category}/>)
             }
           )
         }
