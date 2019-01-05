@@ -1,7 +1,7 @@
 import { RECEIVE_POSTS_BEGIN, RECEIVE_POSTS_SUCCESS, RECEIVE_POSTS_FAILURE } from '../actions/posts';
 
 const initialState = {
-	allPosts: [],
+	posts: [],
 	error: null,
   loading: null
 };
@@ -22,7 +22,7 @@ export default function posts (state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        allPosts: action.posts
+        posts: action.posts
       };
 
     case RECEIVE_POSTS_FAILURE:
@@ -33,7 +33,7 @@ export default function posts (state = initialState, action) {
         ...state,
         loading: false,
         error: action.error,
-        allPosts: []
+        posts: []
       };
 
     default:
