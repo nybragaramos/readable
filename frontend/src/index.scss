@@ -2,10 +2,64 @@ $principal-color: #b84fb1;
 $secondary-color: #a96ee9;
 $strong-color: orange;
 $alert-color: red;
+
 $basic-color: #f1f2f3;
+/*$basic-color: #F9FAFB;
+ $basic-color: #dee2e6; */
 $blue-color: #00a1ba;
 $blue2-color: #00c9b7;
 
+
+// @param {String} $property - Property name
+// @param {*} $value - Property value
+// @param {List} $prefixes (()) - List of prefixes to print
+@mixin prefix($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    #{'-' + $prefix + '-' + $property}: $value;
+  }
+ 
+  // Output standard non-prefixed declaration
+  #{$property}: $value;
+}
+
+@mixin btnLike($basic, $hover, $text){
+  text-decoration: none;
+    background-color: $basic;
+    color: $text;
+    padding: 0.5em;
+    border-radius: 5px;
+    @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+    &:hover, &:focus {
+      background-color: $hover;
+      cursor: pointer;
+    }
+}
+
+/* mixin for multiline */
+@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount; 
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -15,7 +69,7 @@ html, body {
   width: 100vw;
   margin: 0;
   padding: 0;
-  background: $basic-color;
+  background: white;
 }
 
 h1, h2, h3, p, ul, li {
@@ -28,7 +82,7 @@ p {
 }
 
 .app {
-  background-color: $basic-color;
+  background-color: white;
 }
 
 .app-header {
@@ -54,12 +108,13 @@ p {
   padding: 0;
   background-color: $basic-color;
   a {
+    display:block;
     text-decoration: none;
     text-align: center;
     color: $principal-color;
     padding: 16px;
 
-    &:hover, &focus {
+    &:hover, &:focus {
       background-color: $principal-color;
       cursor: pointer;
       color: $basic-color
@@ -68,10 +123,91 @@ p {
 }
 
 .post {
-  margin: 8px;
-  padding: 8px;
+  margin: 1.5em 1em;
+  padding: 1.5em 2em 1em 1em;
+  border-radius: 10px;
+  background-color: $basic-color;
+  .post-category {
+     @include btnLike($strong-color, $blue-color, $basic-color);
+  }
+
+  h2 {
+    margin: 1em 0 0.5em 0;
+  }
+  .post-body {
+    @include multiLineEllipsis(1.6em, 2, $basic-color);  
+  }
+
+  .post-author {
+    font-size: 1em;
+    svg {
+      color: $blue-color;
+    }
+  }
+
+  .post-comments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 1.5em;
+    color: $blue-color;
+    
+
+    div {
+      margin: 0 6px;
+    }
+  } 
+
+  .post-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-top: 8px;
+    margin-top:8px;
+    border-top: 1px solid #dee2e6;
+
+
+
+    button {
+      background: $basic-color;
+      font-size: 1.2em;
+      color: $blue-color;
+      border: 1px solid;
+      border-radius: 100%;
+      padding: 5px 6px 1px 6px;
+      margin: 0;   
+    }
+  }
+
+  .post-footer-icons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    max-width: 150px;
+  }
+
+  .post-more {
+    @include btnLike($blue-color, $strong-color, $basic-color);
+  }
+
+  span {
+    color: $blue-color;
+  }
+
 }
 
-.post-category {
 
-}
+/* 
+button {
+      background: $basic-color;
+      border: 1px solid;
+      border-radius: 100%;
+      padding: 5px 8px 1px 8px;
+      margin: 0;   
+    }
+ */
+
