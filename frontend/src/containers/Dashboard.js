@@ -18,22 +18,9 @@ class Dashboard extends Component {
     }
   }
 
-  renderPosts = (posts, category) => {
-    if (posts.length > 0) {
-      return (
-        <Posts
-          posts={posts}
-          category={category}
-        />
-      )
-    }
-    return <div>No Posts</div>
-  }
-
   render() {
 
     const { posts, error, loading } = this.props;
-    const category = this.props.match.params.category;
 
     if (error) {
       return (<div>Error! {error.message}</div>);
@@ -43,7 +30,10 @@ class Dashboard extends Component {
     } else {
       return (
         <Fragment>
-          {this.renderPosts(posts, category)}
+        {posts.length > 0
+          ? <Posts posts={posts}/>
+          : <div>No Posts</div>
+        }
         </Fragment>
       )
     }
