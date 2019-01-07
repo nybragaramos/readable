@@ -26,7 +26,7 @@ class Nav extends Component {
             <Link to='/'>all</Link>
             { 
               categories.map(categorie => {
-                  return (<Link to={categorie.path} key={categorie.path}>{categorie.name}</Link>)
+                  return (<Link to={'/' + categorie.path} key={categorie.path}>{categorie.name}</Link>)
                 }
               )
             }
