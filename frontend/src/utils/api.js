@@ -10,22 +10,23 @@ const headers = {
   'Authorization': token
 }
 
-/*export const getPosts = () =>
-  fetch(`${API}/posts`, { headers })
-  	.then(handleErrors)
-    .then(res => res.json())
-*/
 export const getPosts = category => {
   const url = category ? `${API}/${category}/posts` : `${API}/posts`
   return fetch(url, { headers })
     .then(res => res.json())
 }
 
-export const getCategories = () =>
+export const getCategories = () => 
   fetch(`${API}/categories`, { headers })
     .then(handleErrors)
     .then(res => res.json())
     .then(data => data.categories)
+
+export const getDetails = id =>
+  fetch(`${API}/posts/${id}`, { headers })
+    .then(handleErrors)
+    .then(res => res.json())
+
 
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
