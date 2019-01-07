@@ -8,14 +8,14 @@ const receivePostsBegin = () => ({
   type: RECEIVE_POSTS_BEGIN
 });
 
-function receivePostsSuccess (posts) {
+const receivePostsSuccess = posts => {
 	return {
   	type: RECEIVE_POSTS_SUCCESS,
   	posts,
 	}
 };
 
-function receivePostsFailure (error) {
+const receivePostsFailure = error => {
   return {
   	type: RECEIVE_POSTS_FAILURE,
   	error: { error }
