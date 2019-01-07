@@ -1,5 +1,6 @@
 import React, { Component, } from 'react'
 import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, FaRegComment, FaRegCommentDots } from 'react-icons/fa';
+import { timeAgo } from '../utils/helper'
 
 class Post extends Component {
   render() {
@@ -9,7 +10,7 @@ class Post extends Component {
       <article className='post'>
         <a href={'/' + post.category} className='post-category'>{post.category}</a>
         <h2>{post.title}</h2>
-        <p className='post-author'><FaRegUser/> {post.author} {post.timestamp}</p>
+        <p className='post-author'><FaRegUser/> {post.author} {timeAgo(post.timestamp)}</p>
         <p className='post-body'>{post.body}</p>
         <div className='post-footer'>
           <div className='post-footer-icons'>
