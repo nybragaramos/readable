@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {BrowserRouter as Router, Route, Switch/*, Redirect*/ } from 'react-router-dom'
 import Dashboard from '../containers/Dashboard'
 import Nav from '../components/Nav'
+import PostPage from '../containers/PostPage'
 
 class App extends Component {
 
@@ -18,6 +19,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={Dashboard} />
             <Route path="/:category" exact component={Dashboard} />
+            <Route path="/:category/:id" exact component={PostPage} />
           </Switch>
         </div>
       </Router>
