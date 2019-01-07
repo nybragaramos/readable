@@ -27,6 +27,10 @@ export const getDetails = id =>
     .then(handleErrors)
     .then(res => res.json())
 
+export const getPostComments = id =>
+  fetch(`${API}/posts/${id}/comments`, { headers })
+    .then(handleErrors)
+    .then(res => res.json())
 
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
