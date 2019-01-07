@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Post from './Post'
+import PostCard from './PostCard'
 
 class Posts extends Component {
   render() {
@@ -10,7 +10,7 @@ class Posts extends Component {
       <div>
         { 
           posts.map(post => {
-              return (<Post key={post.id} post={post}/>)
+              return (<PostCard key={post.id} post={post}/>)
             }
           )
         }
