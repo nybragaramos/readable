@@ -1,5 +1,6 @@
 import React, { Component, } from 'react'
-import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, FaRegComment, FaRegCommentDots } from 'react-icons/fa';
+import { FaRegUser/*, FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegComment, FaRegCommentDots*/ } from 'react-icons/fa';
+import Vote from './Vote'
 
 class Post extends Component {
   render() {
@@ -9,8 +10,9 @@ class Post extends Component {
     return (
       <article className='post'>
         <h2>{post.title}</h2>
-         <p className='author'><FaRegUser/> {post.author} {post.timestamp}</p>
-         <p>{post.body}</p>
+        <p className='author'><FaRegUser/> {post.author} {post.timestamp}</p>
+        <p>{post.body}</p>
+        <Vote likeItem={post} parent='post'/>
       </article>
     )
   }

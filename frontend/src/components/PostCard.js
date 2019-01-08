@@ -1,7 +1,8 @@
 import React, { Component, } from 'react'
 import { Link } from 'react-router-dom'
-import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, FaRegComment, FaRegCommentDots } from 'react-icons/fa';
+import { FaRegCommentDots, FaRegUser } from 'react-icons/fa';
 import { timeAgo } from '../utils/helper'
+import Vote from './Vote'
 
 class PostCard extends Component {
   render() {
@@ -11,16 +12,17 @@ class PostCard extends Component {
       <article className='post-card'>
         <Link to={'/' + post.category} className='category'>{post.category}</Link>
         <h2>{post.title}</h2>
-        <p className='author'><FaRegUser/> {post.author} {timeAgo(post.timestamp)}</p>
-        <p className='body'>{post.body}</p>
+        <p className='author'><FaRegUser/> <span>{post.author} {timeAgo(post.timestamp)}</span></p>
+        <div className='body'>
+          <p>{post.body}</p>
+        </div>
         <div className='footer'>
           <div className='icons'>
             <div className='comments'>
               <span><FaRegCommentDots/></span>
               <div>{post.commentCount}</div>
             </div>
-            <button><FaRegThumbsUp/></button>
-            <button><FaRegThumbsDown/></button>
+            <Vote likeItem={post} parent='postCards'/>
           </div>
           <Link to={'/' + post.category + '/' + post.id} className='more'>Read More</Link>
         </div>
