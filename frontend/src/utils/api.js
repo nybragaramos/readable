@@ -32,6 +32,30 @@ export const getPostComments = id =>
     .then(handleErrors)
     .then(res => res.json())
 
+export const postVotePost = (id, vote) =>
+  fetch(`${API}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: vote })
+  })
+  .then(res => res.json())
+  .then(data => data)
+
+export const postVoteComment = (id, vote) =>
+  fetch(`${API}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: vote })
+  })
+  .then(res => res.json())
+  .then(data => data)
+
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
   if (!response.ok) {
