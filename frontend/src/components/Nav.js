@@ -18,9 +18,7 @@ class Nav extends Component {
       return (<div>Error! {error.message}</div>);
     }
 
-    if(loading) {
-      return (<div>loading</div>)
-    } else {
+    if(!loading) {
       return (
         <nav className='navbar' role="navigation" aria-label="main navigation">
             <Link to='/'>all</Link>
@@ -32,7 +30,8 @@ class Nav extends Component {
             }
         </nav>
       )
-    }  
+    }
+    return null;  
   }
 }
 

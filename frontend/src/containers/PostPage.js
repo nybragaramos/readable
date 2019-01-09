@@ -1,49 +1,37 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 import { handleDetails } from '../actions/post';
-import { handlePostComments } from '../actions/comments';
-
 import Post from '../components/Post';
-import Comments from '../components/Comments'
+import Comments from './Comments'
+import Loader from '../components/Loader'
+
 class PostPage extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     const id = this.props.match.params.id;
     this.props.fetchPostDetails(id);
-    this.props.fetchPostComments(id);
   }
-
-/*  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.category !== this.props.match.params.category) {
-      const category = nextProps.match.params.category;
-      this.props.fetchPosts(category);
-    }
-  }*/
 
   render() {
 
-    const { details, error, loading, comments } = this.props;
+    const { details, error, loading } = this.props;
     if(error) {
       return <div>ERROR!</div>
     }
     if(loading){
-      return <div>loading...</div>
+      return <Loader/>
+    } else if(!loading && details === {}){
+        return (
+          <h1>Post Not Found</h1>
+        )
+      } else {
+        return(
+          <Fragment>
+            <Post post={details}/>
+            <Comments id={details.id}/>
+          </Fragment>
+        )
     }
-    if(details){
-      return(
-        <Fragment>
-          <Post post={details}/>
-          {comments.length > 0
-            ? <Comments comments={comments}/>
-            : <div>No Comments</div>
-          }
-        </Fragment>
-      )
-    }
-
-    return (
-      <div>Post Not Found</div>
-    )
   }
 }
 
@@ -51,12 +39,10 @@ const mapStateToProps = state => ({
   details: state.post.details,
   error: state.post.error,
   loading: state.post.loading,
-  comments: state.comments.comments
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchPostDetails: id => dispatch(handleDetails(id)),
-  fetchPostComments: id => dispatch(handlePostComments(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPage)

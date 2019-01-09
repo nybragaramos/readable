@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { handlePosts } from '../actions/posts';
 import Posts from '../components/Posts'
-
+import Loader from '../components/Loader'
 
 class Dashboard extends Component {
 
@@ -25,9 +25,8 @@ class Dashboard extends Component {
     if (error) {
       return (<div>Error! {error.message}</div>);
     }
-    if(loading) {
-      return (<div>loading</div>)
-    } else {
+
+    if(!loading) {
       return (
         <Fragment>
         {posts.length > 0
@@ -37,6 +36,8 @@ class Dashboard extends Component {
         </Fragment>
       )
     }
+
+    return <Loader/>
   }
 }
 

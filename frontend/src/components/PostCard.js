@@ -18,7 +18,7 @@ class PostCard extends Component {
         </div>
         <div className='footer'>
           <div className='icons'>
-            <div className='comments'>
+            <div className='comments-number'>
               <span><FaRegCommentDots/></span>
               <div>{post.commentCount}</div>
             </div>
