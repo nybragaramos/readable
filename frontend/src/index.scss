@@ -26,15 +26,15 @@ $blue2-color: #00c9b7;
 
 @mixin linkLikeBtn($basic, $hover, $text){
   text-decoration: none;
-    background-color: $basic;
-    color: $text;
-    padding: 0.5em;
-    border-radius: 5px;
-    @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
-    &:hover, &:focus {
-      background-color: $hover;
-      cursor: pointer;
-    }
+  background-color: $basic;
+  color: $text;
+  padding: 0.5em;
+  border-radius: 5px;
+  @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+  &:hover, &:focus {
+    background-color: $hover;
+    cursor: pointer;
+  }
 }
 
 /* mixin for multiline */
@@ -60,6 +60,81 @@ $blue2-color: #00c9b7;
     height: 1em;
     margin-top: 0.2em;
     background: $bgColor;
+  }
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content; 
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  } 
+}
+
+%flex-basic {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: none;
+  flex-wrap: nowrap;
+
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-direction: normal;
+  -moz-box-orient: horizontal;
+  flex-direction: row;
+  
+  @include prefix(animation, fadeInOpacity 1 ease-in, webkit moz o ms);
+}
+
+@mixin justify-content($value: flex-start) {
+  @if $value == flex-start {
+    -webkit-box-pack: start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+  } @else if $value == flex-end {
+    -webkit-box-pack: end;
+    -moz-box-pack: end;
+    -ms-flex-pack: end;
+  } @else if $value == space-between {
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+  } @else if $value == space-around {
+    -ms-flex-pack: distribute;
+  } @else {
+    -webkit-box-pack: $value;
+    -moz-box-pack: $value;
+    -ms-flex-pack: $value;
+  }
+  -webkit-justify-content: $value;
+  justify-content: $value;
+}
+
+%fade {
+  opacity: 1;
+  @include prefix(animation, fadeInOpacity 1 ease-in, webkit moz o ms);
+}
+
+@include keyframes(fadeInOpacity) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -103,10 +178,8 @@ p {
 .navbar {
   width: 100%;
   list-style: none;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
+  @extend %flex-basic;
+  @include justify-content(center);
   padding: 0;
   background-color: $basic-color;
   a {
@@ -158,10 +231,8 @@ p {
     }
   }
 
-  .comments {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  .comments-number {
+    @extend %flex-basic;
     font-size: 1.5em;    
     div {
       color: $light-color;
@@ -170,20 +241,16 @@ p {
   } 
 
   .footer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+    @extend %flex-basic;
+    @include justify-content(space-between);
     padding-top: 8px;
     margin-top:8px;
     border-top: 1px solid #dee2e6;
   }
 
   .icons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
+    @extend %flex-basic;
+    @include justify-content(space-around);
     align-items: center;
     width: 50%;
     max-width: 150px;
@@ -212,17 +279,8 @@ p {
   }
 }
 
-.comment {
-  margin: 1.5em 1em;
-  padding: 1.5em 2em 1em 1em;
-  border-radius: 10px;
-  background-color: $basic-color;
-}
-
 .vote {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;    
+  @extend %flex-basic;  
     
   button {
     background: $basic-color;
@@ -247,4 +305,28 @@ p {
   .down {
     color: $fail-color;
   }
+}
+
+.comments {
+  margin: 1.5em 1em;
+  padding: 1.5em 2em 1em 1em;
+  background-color:#CCCCCC;
+  position:relative;
+  min-height: 200px;
+  
+  .comment {
+  margin: 1.5em 1em;
+  padding: 1.5em 2em 1em 1em;
+  border-radius: 10px;
+  background-color: $basic-color;
+}
+}
+
+.loader {
+  margin:0 auto;
+  position:absolute;
+  left:47%;
+  top: calc(50% + 32px);
+  @extend  %fade;
+  @include prefix(animation-duration, 800ms, webkit moz o);
 }
