@@ -18,26 +18,24 @@ const toggleVoteSuccess = details => {
 const toggleVoteFailure = error => {
   return {
     type: TOGGLE_VOTE_FAILURE,
-    error: { error }
+    error,
   }
 };
 
 export const handleVote = (id, option, parent) => dispatch => {
   dispatch(toggleVoteBegin());
-  switch(parent) {
-    case 'comments':
-      return postVoteComment(id, option)
-        .then(details => {
-          dispatch(toggleVoteSuccess(details));
-          return details;
-        })
-      .catch(error => dispatch(toggleVoteFailure(error)))
-    default:
-      return postVotePost(id, option)
-        .then(details => {
-          dispatch(toggleVoteSuccess(details));
-          return details;
-        })
-        .catch(error => dispatch(toggleVoteFailure(error)))
-  }    
+  if(parent === 'comments') {
+    return postVoteComment(id, option)
+      .then(details => {
+        dispatch(toggleVoteSuccess(details));
+        return details;
+      })
+    .catch(error => dispatch(toggleVoteFailure(error)))
+  }
+    return postVotePost(id, option)
+      .then(details => {
+        dispatch(toggleVoteSuccess(details));
+        return details;
+      })
+      .catch(error => dispatch(toggleVoteFailure(error)))    
 };

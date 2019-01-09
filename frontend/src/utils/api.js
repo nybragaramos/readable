@@ -41,6 +41,7 @@ export const postVotePost = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   })
+  .then(handleErrors)
   .then(res => res.json())
   .then(data => data)
 
@@ -53,6 +54,7 @@ export const postVoteComment = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   })
+  .then(handleErrors)
   .then(res => res.json())
   .then(data => data)
 
