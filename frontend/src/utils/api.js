@@ -1,4 +1,4 @@
-const API = 'http://localhost:3001';
+const API = 'https://readable-api-nybragaramos.herokuapp.com';
 
 // Generate a unique token for storing your data on the backend server.
 let token = localStorage.token
