@@ -9,6 +9,7 @@ $basic-color: #f1f2f3;
  $basic-color: #dee2e6; */
 $blue-color: #00a1ba;
 $blue2-color: #00c9b7;
+$grey-color: #aaaaaa;
 
 
 
@@ -142,11 +143,19 @@ $blue2-color: #00c9b7;
   box-sizing: border-box;
 }
 
-html, body {
-  width: 100vw;
+html {
+  max-width: 100vw;
+  min-width: 300px;
   margin: 0;
   padding: 0;
   background: white;
+}
+
+body {
+  
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 h1, h2, h3, p, ul, li {
@@ -160,6 +169,7 @@ p {
 
 .app {
   background-color: white;
+  height: 100%;
 }
 
 .app-header {
@@ -176,6 +186,8 @@ p {
 }
 
 .navbar {
+  position: sticky;
+  top:0;
   width: 100%;
   list-style: none;
   @extend %flex-basic;
@@ -189,10 +201,87 @@ p {
     color: $principal-color;
     padding: 16px;
 
-    &:hover, &:focus {
+    &:hover, &:focus, .nav-select {
       background-color: $principal-color;
       cursor: pointer;
       color: $basic-color
+    }
+  }
+}
+
+.controls-panel {
+  width: 100%;
+  padding: 16px 0;
+  @extend %flex-basic;
+  @include justify-content(center);
+
+  .open-post-new{
+    @include linkLikeBtn($blue-color, $strong-color, $basic-color);
+    margin: 0 8px;
+  }
+
+  select {
+    margin: 0 8px;
+  }
+   
+
+}
+    /* > *{
+    margin-top:30px;
+    } */
+.post-new {
+  padding: 16px;
+  max-width: 900px;
+ 
+  .post-form {
+    margin: 16px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .post-form-group{
+    padding: 8px 0;
+    font-size: 1.3em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    input[type='text'] {
+      background-color: white;
+      font-family: Arial,sans-serif;
+      font-size: 1rem;
+      padding: 8px 0 0 0;
+      letter-spacing: 0;
+      line-height: 1;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color:  $grey-color;
+    }
+
+    select {
+      background-color: white;
+      border: 1px solid $grey-color;
+      font-family: Arial,sans-serif;
+      font-size: 1rem;
+      height: 48px;
+      max-width: 200px;
+      min-width: 148px;
+      letter-spacing: 0;
+      padding: 0 4px;
+      width: 45%;
+    }
+
+    textarea {
+      line-height: 1.7;
+      font-size: 1.3rem;
+      resize: none;
+      min-height: 100%;
+      padding: 4px;
     }
   }
 }
@@ -202,6 +291,7 @@ p {
   padding: 1.5em 1em 1em 1em;
   border-radius: 10px;
   background-color: $basic-color;
+  min-width: 316px;
 
   .category {
      @include linkLikeBtn($strong-color, $blue-color, $basic-color);
