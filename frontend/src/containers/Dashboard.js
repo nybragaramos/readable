@@ -7,15 +7,17 @@ import Controls from '../components/Controls'
 
 class Dashboard extends Component {
 
-  componentWillMount() {
-    const category = this.props.match.params.category;
-    this.props.fetchPosts(category);
+  state = {
+    category: 'all'
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.category !== this.props.match.params.category) {
-      const category = nextProps.match.params.category;
-      this.props.fetchPosts(category);
+  static getDerivedStateFromProps(nextProps, prevState){
+    if(nextProps.match.params.category !== prevState.category){
+        nextProps.fetchPosts(nextProps.match.params.category);
+       return { category: nextProps.match.params.category};
+    } 
+    else {
+       return null;
     }
   }
 
