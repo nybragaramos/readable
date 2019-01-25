@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { handlePosts } from '../actions/posts';
 import Posts from '../components/Posts'
 import Loader from '../components/Loader'
+import Controls from '../components/Controls'
 
 class Dashboard extends Component {
 
@@ -29,9 +30,10 @@ class Dashboard extends Component {
     if(!loading) {
       return (
         <Fragment>
+        <Controls/>
         {posts.length > 0
           ? <Posts posts={posts}/>
-          : <div>No Posts</div>
+          : <div>No Posts!!!</div>
         }
         </Fragment>
       )
