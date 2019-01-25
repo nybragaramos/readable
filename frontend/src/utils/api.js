@@ -7,6 +7,7 @@ if (!token)
 
 const headers = {
   'Accept': 'application/json',
+  'Content-Type': 'application/json',
   'Authorization': token
 }
 
@@ -35,10 +36,7 @@ export const getPostComments = id =>
 export const postVotePost = (id, vote) =>
   fetch(`${API}/posts/${id}`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify({ option: vote })
   })
   .then(handleErrors)
@@ -48,15 +46,32 @@ export const postVotePost = (id, vote) =>
 export const postVoteComment = (id, vote) =>
   fetch(`${API}/comments/${id}`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify({ option: vote })
   })
   .then(handleErrors)
   .then(res => res.json())
   .then(data => data)
+
+export const postNewPost = post => {
+  const timestamp = Date.now();
+  const id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+  const data = {
+    ...post,
+    timestamp,
+    id,
+    voteScore: 0,
+    deleted: false,
+    commentCount: 0
+  }
+
+  return fetch(`${API}/posts`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(data)
+  }).then(res => res.json())
+    .then(data => data)
+}
 
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
