@@ -53,24 +53,38 @@ export const postVoteComment = (id, vote) =>
   .then(res => res.json())
   .then(data => data)
 
-export const postNewPost = post => {
+export const addNewPost = post => {
   const timestamp = Date.now();
   const id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
   const data = {
     ...post,
     timestamp,
-    id,
-    voteScore: 0,
-    deleted: false,
-    commentCount: 0
+    id
   }
 
   return fetch(`${API}/posts`, {
     method: 'POST',
     headers,
     body: JSON.stringify(data)
-  }).then(res => res.json())
-    .then(data => data)
+  }).then(handleErrors)
+    .then(res => res.json())
+    .then(post => post)
+}
+
+export const editPost = post => {
+  const timestamp = Date.now();
+  const data = {
+    ...post,
+    timestamp,
+  }
+
+  return fetch(`${API}/posts/${post.id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(data)
+  }).then(handleErrors)
+    .then(res => res.json())
+    .then(id => id)
 }
 
 // Handle HTTP errors since fetch won't.
