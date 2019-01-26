@@ -361,12 +361,25 @@ p {
   border-radius: 10px;
   background-color: $basic-color;
 
+  .header{
+     @extend %flex-basic;
+
+     h2 {
+      width: 100%;
+     }
+  }
+
   .author {
     font-size: 1em;
     svg {
       color: $blue-color;
     }
   }
+  
+  .edit{
+    @include linkLikeBtn ($basic-color,$secondary-color,$strong-color);
+  }
+
 }
 
 .vote {
