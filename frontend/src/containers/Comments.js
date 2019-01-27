@@ -6,11 +6,8 @@ import Loader from '../components/Loader'
 
 class Comments extends Component {
 
-  
-
   componentDidMount() {
     const id = this.props.id;
-    console.log(id);
     this.props.fetchPostComments(id)
   }
 

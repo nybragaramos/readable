@@ -53,6 +53,12 @@ export const postVoteComment = (id, vote) =>
   .then(res => res.json())
   .then(data => data)
 
+export const getCommentDetails = id =>
+  fetch(`${API}/comments/${id}`, { headers })
+    .then(handleErrors)
+    .then(res => res.json())
+    .then(data => data)
+
 export const addNewPost = post => {
   const timestamp = Date.now();
   const id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
@@ -68,7 +74,6 @@ export const addNewPost = post => {
     body: JSON.stringify(data)
   }).then(handleErrors)
     .then(res => res.json())
-    .then(post => post)
 }
 
 export const editPost = post => {
@@ -84,8 +89,40 @@ export const editPost = post => {
     body: JSON.stringify(data)
   }).then(handleErrors)
     .then(res => res.json())
-    .then(id => id)
 }
+
+export const addNewComment = comment => {
+  const timestamp = Date.now();
+  const id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+  const data = {
+    ...comment,
+    timestamp,
+    id
+  }
+
+  return fetch(`${API}/comments`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(data)
+  }).then(handleErrors)
+    .then(res => res.json())
+}
+
+export const editComment = comment => {
+  const timestamp = Date.now();
+  const data = {
+    ...comment,
+    timestamp,
+  }
+
+  return fetch(`${API}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(data)
+  }).then(handleErrors)
+    .then(res => res.json())
+}
+
 
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
