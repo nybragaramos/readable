@@ -3,9 +3,8 @@ import React, { Component, Fragment} from 'react'
 import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, FaRegComment, FaRegCommentDots } from 'react-icons/fa';
 import { timeAgo } from '../utils/helper'*/
 import Vote from './Vote'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { handleEditComment } from '../actions/comment';
+import { handleEditComment } from '../actions/comments';
 import { handlePostComments } from '../actions/comments';
 
 class Comment extends Component {
@@ -44,12 +43,10 @@ class Comment extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-      this.props.editPost(this.state.comment)
-      .then((value)=>{
-        this.setState({
+      this.setState({
           edit: false
         })
-      })
+      this.props.editComment(this.state.comment);
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
@@ -97,7 +94,7 @@ const mapStateToProps = state => ({
 */})
 
 const mapDispatchToProps = dispatch => ({
-  editPost: (comment) => dispatch(handleEditComment(comment)),
+  editComment: (comment) => dispatch(handleEditComment(comment)),
   updateComments: (id) => dispatch(handlePostComments(id))
 })
 

@@ -14,24 +14,29 @@ class PostPage extends Component {
 
   render() {
 
-    const { details, error, loading } = this.props;
-    if(error) {
-      return <div>ERROR!</div>
+    if(this.props.match.params.id){
+      const error = this.props.error;
+      const loading = this.props.loading;
+      const details = this.props.details;
+      if(error) {
+        return <div>ERROR!</div>
+      }
+      if(loading){
+        return <Loader/>
+      } else if((loading === false) && Object.keys(details).length !== 0){
+          return (
+            <Fragment>
+              <Post post={details}/>
+              <Comments id={details.id}/>
+            </Fragment>
+          )
+        } else if((loading === false) && Object.keys(details).length === 0){
+          return(
+            <h1>Post Not Found</h1>
+          )
+      }
     }
-    if(loading){
-      return <Loader/>
-    } else if(!loading && details === {}){
-        return (
-          <h1>Post Not Found</h1>
-        )
-      } else {
-        return(
-          <Fragment>
-            <Post post={details}/>
-            <Comments id={details.id}/>
-          </Fragment>
-        )
-    }
+    return null;
   }
 }
 

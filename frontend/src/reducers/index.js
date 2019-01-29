@@ -3,7 +3,6 @@ import posts from './posts'
 import categories from './categories'
 import post from './post'
 import comments from './comments'
-import comment from './comment'
 import vote from './vote'
 
 export default combineReducers({
@@ -11,6 +10,5 @@ export default combineReducers({
   posts,
   post,
   comments,
-  comment,
   vote,
 })
