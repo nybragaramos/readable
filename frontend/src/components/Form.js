@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { handleNewPost, handleEditPost } from '../actions/post';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 class Form extends Component {
 
   constructor(props) {
@@ -14,7 +14,6 @@ class Form extends Component {
         author: '',
         category: 'react'
       },
-      redirect: false,
       edit:false,
     };
 
@@ -25,7 +24,6 @@ class Form extends Component {
   static getDerivedStateFromProps(props, state){
     if(props.post){
       if(props.post.id !== state.post.id){
-        console.log("edit");
         return{
           post: props.post,
           edit: true
@@ -34,7 +32,6 @@ class Form extends Component {
         return null;
       }
     } else {
-      console.log("new");
       return {edit: false}
     }
   }
@@ -42,8 +39,7 @@ class Form extends Component {
   handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    this.setState(prevState => ({
-      
+    this.setState(prevState => ({      
       post: {
           ...prevState.post,
           [name]: value
@@ -56,31 +52,17 @@ class Form extends Component {
     if(this.state.edit){
       this.props.editPost(this.state.post)
       .then((value)=>{
-      this.setState({
-        redirect: true
-        })
+        this.props.history.push(`/${value.category}/${value.id}`)
       })
     } else {
       this.props.addPost(this.state.post)
       .then((value)=>{
-
-        this.setState(prevState => ({
-          post: {
-            ...prevState.post,
-            id: value.id,
-          },
-          redirect: true
-        }))
+        this.props.history.push(`/${value.category}/${value.id}`)
       })
     }
   }
 
   render() {
-
-    if (this.state.redirect) {
-      return <Redirect to={`/${this.state.post.category}/${this.state.post.id}`} />
-    }
-    
     return(
     <div className='post-new'>
       <h2>Create a New Post</h2>
