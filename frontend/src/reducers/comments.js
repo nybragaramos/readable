@@ -1,6 +1,7 @@
 import { RECEIVE_POST_COMMENTS_BEGIN, RECEIVE_POST_COMMENTS_SUCCESS, RECEIVE_POST_COMMENTS_FAILURE,
          ADD_COMMENT_BEGIN, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
-         EDIT_COMMENT_BEGIN, EDIT_COMMENT_SUCCESS, EDIT_COMMENT_FAILURE } from '../actions/comments';
+         EDIT_COMMENT_BEGIN, EDIT_COMMENT_SUCCESS, EDIT_COMMENT_FAILURE,
+         TOGGLE_VOTE_COMMENT_BEGIN, TOGGLE_VOTE_COMMENT_SUCCESS, TOGGLE_VOTE_COMMENT_FAILURE } from '../actions/comments';
 
 const initialState = {
 	comments: [],
@@ -76,7 +77,7 @@ export default function comments (state = initialState, action) {
 
     case EDIT_COMMENT_SUCCESS:
       // All done: set loading "false".
-      let updateComments = state.comments.map((comment) => {
+      let editedComments = state.comments.map((comment) => {
         if (comment.id !== action.details.id) {
           // This isn't the item we care about - keep it as-is
           return comment
@@ -92,7 +93,7 @@ export default function comments (state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        comments: updateComments
+        comments: editedComments
       };
 
     case EDIT_COMMENT_FAILURE:
@@ -104,6 +105,44 @@ export default function comments (state = initialState, action) {
         loading: false,
         error: action.error,
         details: null
+      };
+
+    case TOGGLE_VOTE_COMMENT_BEGIN:
+      // Mark the state as "loading".
+      return {
+        ...state,
+        error: null
+      };
+
+    case TOGGLE_VOTE_COMMENT_SUCCESS:
+      // All done: set loading "false".
+      let updateVoteComments = state.comments.map((comment) => {
+        if (comment.id !== action.details.id) {
+          // This isn't the item we care about - keep it as-is
+          return comment
+        }
+    
+        // Otherwise, this is the one we want - return an updated value
+        return {
+          ...comment,
+          ...action.details
+        }
+      })
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        comments: updateVoteComments
+      };
+
+    case TOGGLE_VOTE_COMMENT_FAILURE:
+      // The request failed. It's done. So set loading to "false".
+      // Save the error, so we can display it somewhere.
+      // Since it failed, we don't have items to display anymore, so set `items` empty.
+      return {
+        ...state,
+        error: action.error,
+        details: {}
       };
 
     default:
