@@ -72,7 +72,6 @@ const editCommentBegin = () => ({
 });
 
 const editCommentSuccess = details => {
-  console.log(details);
   return {
     type: EDIT_COMMENT_SUCCESS,
     details,

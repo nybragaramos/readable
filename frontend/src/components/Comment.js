@@ -16,17 +16,25 @@ class Comment extends Component {
         author: "",
         body: "",
         id: "",
+        deleted: "",
+        voteScore: "",
+        timestamp: ""
       },
       edit: false,
     }
 
     this.formOpen = this.formOpen.bind(this);
+    this.formClose = this.formClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   formOpen(){
     this.setState({edit: true});
+  }
+
+  formClose(){
+    this.setState({edit: false});
   }
 
   handleChange(event) {
@@ -52,16 +60,20 @@ class Comment extends Component {
   static getDerivedStateFromProps(nextProps, prevState){
     if(prevState.comment){
       if(nextProps.comment.id !== prevState.comment.id){
-      return {comment: nextProps.comment};
+        return {comment: nextProps.comment};
+      } else{
+        if(nextProps.comment.voteScore !== prevState.comment.voteScore){
+          return {comment: {...prevState.comment,
+                          voteScore: nextProps.comment.voteScore}}
+        }
       }
     }
     return null;
   }
 
   render() {
-    const { comment } = this.props;
     return (        
-      <article className='comment' key={comment.id}>
+      <article className='comment' key={this.state.comment.id}>
         {this.state.edit ? (
           <section>
             <form className='comment-form' onSubmit={this.handleSubmit}>
@@ -74,6 +86,7 @@ class Comment extends Component {
                 <textarea value={this.state.comment.body} onChange={this.handleChange} name='body' rows="5" required />
               </div>
               <input type="submit" value="Submit" />
+              <button onClick={this.formClose}>Cancel</button>
             </form>
           </section>) : (
           <Fragment>

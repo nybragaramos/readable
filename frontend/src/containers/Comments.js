@@ -13,8 +13,9 @@ class Comments extends Component {
       comment:{
         author: "",
         body: "",
-        parentId: ""
+        parentId: "",
       },
+      comments:[],
       create: false,
     }
 
@@ -34,6 +35,14 @@ class Comments extends Component {
   componentDidMount() {
     this.props.fetchPostComments(this.state.comment.parentId)
   }
+
+  /*componentDidUpdate(prevProps) {
+    console.log(prevProps);
+    
+     if (prevProps.id !== this.props.id) {
+       this.props.fetchPostComments(this.props.id)
+     }
+   }*/
 
   formOpen(){
     this.setState((prevState) => ({

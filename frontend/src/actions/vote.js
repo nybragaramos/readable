@@ -1,4 +1,4 @@
-import { postVotePost, postVoteComment } from '../utils/api'
+import { postVotePost } from '../utils/api'
 
 export const TOGGLE_VOTE_BEGIN = 'TOGGLE_VOTE_BEGIN';
 export const TOGGLE_VOTE_SUCCESS = 'TOGGLE_VOTE_SUCCESS';
@@ -22,16 +22,8 @@ const toggleVoteFailure = error => {
   }
 };
 
-export const handleVote = (id, option, parent) => dispatch => {
+export const handleVotePost = (id, option) => dispatch => {
   dispatch(toggleVoteBegin());
-  if(parent === 'comments') {
-    return postVoteComment(id, option)
-      .then(details => {
-        dispatch(toggleVoteSuccess(details));
-        return details;
-      })
-    .catch(error => dispatch(toggleVoteFailure(error)))
-  }
     return postVotePost(id, option)
       .then(details => {
         dispatch(toggleVoteSuccess(details));

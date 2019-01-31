@@ -1,6 +1,6 @@
 import React, { Component, } from 'react'
 import {  FaRegThumbsUp, FaRegThumbsDown /*, FaThumbsUp, FaThumbsDown*/} from 'react-icons/fa';
-import { handleVote } from '../actions/vote'
+import { handleVotePost } from '../actions/vote'
 import { handleVoteComment } from '../actions/comments'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -24,15 +24,14 @@ class Vote extends Component {
     if(parent === 'comments'){
       this.props.fetchVoteComment(likeItem.id, type)
       .then((value) => {
-        console.log(value);
         if(value.error) {
           type==='upVote' 
             ? this.setState({score: this.state.score - 1})
             : this.setState({score: this.state.score + 1})
         }     
       })  
-    }else {
-    this.props.fetchVote(likeItem.id, type, parent)
+    } else {
+    this.props.fetchVotePost(likeItem.id, type)
     .then((value) => {
       if(value.error) {
         type==='upVote' 
@@ -58,7 +57,7 @@ class Vote extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchVote: (id, option, isComment) => dispatch(handleVote(id,option, isComment)),
+  fetchVotePost: (id, option) => dispatch(handleVotePost(id,option)),
   fetchVoteComment:(id,option)=> dispatch(handleVoteComment(id,option))
 })
 

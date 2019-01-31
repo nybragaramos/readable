@@ -84,6 +84,7 @@ export default function comments (state = initialState, action) {
         }
     
         // Otherwise, this is the one we want - return an updated value
+        console.log(action.details);
         return {
           ...comment,
           ...action.details
