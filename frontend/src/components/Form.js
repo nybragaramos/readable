@@ -62,6 +62,10 @@ class Form extends Component {
     }
   }
 
+  formClose(){
+
+  }
+
   render() {
     return(
     <div className='post-new'>
@@ -90,7 +94,10 @@ class Form extends Component {
           <label className='post-form-element'>Post</label>
           <textarea value={this.state.post.body} onChange={this.handleChange} name='body' rows="10" required />
         </div>
-        <input type="submit" value="Submit" />
+        <div>
+          <input type="submit" value="Submit" />
+          <button onClick={this.props.history.goBack}>Cancel</button>
+        </div>
       </form>
     </div>
     );
