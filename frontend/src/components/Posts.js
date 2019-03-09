@@ -10,7 +10,10 @@ class Posts extends Component {
       <div>
         { 
           posts.map(post => {
-              return (<PostCard key={post.id} post={post}/>)
+              if(post.deleted === false)
+                return (<PostCard key={post.id} post={post}/>)
+              else
+                return null;
             }
           )
         }

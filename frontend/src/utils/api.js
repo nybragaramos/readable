@@ -15,6 +15,7 @@ export const getPosts = category => {
   const url = category ? `${API}/${category}/posts` : `${API}/posts`
   return fetch(url, { headers })
     .then(res => res.json())
+    .then(data => data)
 }
 
 export const getCategories = () => 
@@ -89,6 +90,15 @@ export const editPost = post => {
     body: JSON.stringify(data)
   }).then(handleErrors)
     .then(res => res.json())
+}
+
+export const deletePost = id => {
+  return fetch(`${API}/posts/${id}`, {
+    method: 'DELETE',
+    headers,
+  }).then(handleErrors)
+    .then(res => res.json())
+    .then(data => data)
 }
 
 export const addNewComment = comment => {

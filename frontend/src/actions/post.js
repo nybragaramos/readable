@@ -1,4 +1,4 @@
-import { getDetails, addNewPost, editPost } from '../utils/api'
+import { getDetails, addNewPost, editPost, deletePost } from '../utils/api'
 
 export const RECEIVE_POST_BEGIN = 'RECEIVE_POST_BEGIN';
 export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS';
@@ -9,6 +9,9 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 export const EDIT_POST_BEGIN = 'EDIT_POST_BEGIN';
 export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
 export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
+export const DELETE_POST_BEGIN = 'DELETE_POST_BEGIN';
+export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const DELETE_POST_FAILURE = 'DELETE_POST_FAILURE';
 
 const receiveDetailsBegin = () => ({
   type: RECEIVE_POST_BEGIN
@@ -65,6 +68,24 @@ const editPostFailure = error => {
   }
 };
 
+const deletePostBegin = () => ({
+  type: DELETE_POST_BEGIN
+});
+
+const deletePostSuccess = details => {
+  return {
+    type: DELETE_POST_SUCCESS,
+    details,
+  }
+};
+
+const deletePostFailure = error => {
+  return {
+    type: DELETE_POST_FAILURE,
+    error: { error }
+  }
+};
+
 export const handleDetails = id => dispatch => {
   dispatch(receiveDetailsBegin());
   return getDetails(id)
@@ -94,3 +115,14 @@ export const handleEditPost = post => dispatch => {
     })
     .catch(error => dispatch(editPostFailure(error)));
 };
+
+export const handleDeletePost = id => dispatch => {
+  dispatch(deletePostBegin());
+  return deletePost(id)
+    .then(post => {
+      dispatch(deletePostSuccess(post));
+      return post;
+    })
+    .catch(error => dispatch(deletePostFailure(error)));
+};
+
