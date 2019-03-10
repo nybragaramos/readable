@@ -4,8 +4,7 @@ import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, Fa
 import { timeAgo } from '../utils/helper'*/
 import Vote from './Vote'
 import { connect } from 'react-redux';
-import { handleEditComment } from '../actions/comments';
-import { handlePostComments } from '../actions/comments';
+import { handleEditComment, handlePostComments, handleDeleteComment } from '../actions/comments';
 
 class Comment extends Component {
 
@@ -27,6 +26,7 @@ class Comment extends Component {
     this.formClose = this.formClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   formOpen(){
@@ -35,6 +35,11 @@ class Comment extends Component {
 
   formClose(){
     this.setState({edit: false});
+  }
+
+  delete(){
+    //console.log(this.state);
+    this.props.deleteComment(this.state.comment.id);
   }
 
   handleChange(event) {
@@ -91,6 +96,7 @@ class Comment extends Component {
           </section>) : (
           <Fragment>
             <button onClick={this.formOpen}>Edit</button>
+            <button onClick={this.delete}>Delete</button>
             <h2>{this.state.comment.author}</h2>
             <p>{this.state.comment.body}</p>
             <Vote likeItem={this.state.comment} parent='comments'/>
@@ -108,7 +114,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   editComment: (comment) => dispatch(handleEditComment(comment)),
-  updateComments: (id) => dispatch(handlePostComments(id))
+  updateComments: (id) => dispatch(handlePostComments(id)),
+  deleteComment: (id) => dispatch(handleDeleteComment(id)),
 })
 
 

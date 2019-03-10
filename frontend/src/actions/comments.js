@@ -1,4 +1,4 @@
-import { getPostComments, addNewComment, editComment, postVoteComment } from '../utils/api'
+import { getPostComments, addNewComment, editComment, postVoteComment, deleteComment } from '../utils/api'
 
 export const RECEIVE_POST_COMMENTS_BEGIN = 'RECEIVE_POST_COMMENTS_BEGIN';
 export const RECEIVE_POST_COMMENTS_SUCCESS = 'RECEIVE_POST_COMMENTS_SUCCESS';
@@ -12,6 +12,9 @@ export const EDIT_COMMENT_FAILURE = 'EDIT_COMMENT_FAILURE';
 export const TOGGLE_VOTE_COMMENT_BEGIN = 'TOGGLE_VOTE_COMMENT_BEGIN';
 export const TOGGLE_VOTE_COMMENT_SUCCESS = 'TOGGLE_VOTE_COMMENT_SUCCESS';
 export const TOGGLE_VOTE_COMMENT_FAILURE = 'TOGGLE_VOTE_COMMENT_FAILURE';
+export const DELETE_COMMENT_BEGIN = 'DELETE_COMMENT_BEGIN';
+export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
+export const DELETE_COMMENT_FAILURE = 'DELETE_COMMENT_FAILURE';
 
 const toggleVoteBegin = () => ({
   type: TOGGLE_VOTE_COMMENT_BEGIN
@@ -85,6 +88,23 @@ const editCommentFailure = error => {
   }
 };
 
+const deleteCommentBegin = () => ({
+  type: DELETE_COMMENT_BEGIN
+});
+
+const deleteCommentSuccess = details => {
+  return {
+    type: DELETE_COMMENT_SUCCESS,
+    details,
+  }
+};
+
+const deleteCommentFailure = error => {
+  return {
+    type: DELETE_COMMENT_FAILURE,
+    error: { error }
+  }
+};
 
 export const handlePostComments = id => dispatch => {
   dispatch(receivePostCommentsBegin());
@@ -124,4 +144,14 @@ export const handleVoteComment = (id, option) => dispatch => {
       return details;
     })
   .catch(error => dispatch(toggleVoteFailure(error)))
+};
+
+export const handleDeleteComment = id => dispatch => {
+  dispatch(deleteCommentBegin());
+  return deleteComment(id)
+    .then(post => {
+      dispatch(deleteCommentSuccess(post));
+      return post;
+    })
+    .catch(error => dispatch(deleteCommentFailure(error)));
 };

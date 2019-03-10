@@ -133,6 +133,15 @@ export const editComment = comment => {
     .then(res => res.json())
 }
 
+export const deleteComment = id => {
+  return fetch(`${API}/comments/${id}`, {
+    method: 'DELETE',
+    headers,
+  }).then(handleErrors)
+    .then(res => res.json())
+    .then(data => data)
+}
+
 
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {

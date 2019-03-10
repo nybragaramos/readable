@@ -1,6 +1,7 @@
 import { RECEIVE_POST_COMMENTS_BEGIN, RECEIVE_POST_COMMENTS_SUCCESS, RECEIVE_POST_COMMENTS_FAILURE,
          ADD_COMMENT_BEGIN, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
          EDIT_COMMENT_BEGIN, EDIT_COMMENT_SUCCESS, EDIT_COMMENT_FAILURE,
+         DELETE_COMMENT_BEGIN, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE,
          TOGGLE_VOTE_COMMENT_BEGIN, TOGGLE_VOTE_COMMENT_SUCCESS, TOGGLE_VOTE_COMMENT_FAILURE } from '../actions/comments';
 
 const initialState = {
@@ -106,6 +107,34 @@ export default function comments (state = initialState, action) {
         loading: false,
         error: action.error,
         details: null
+      };
+
+    case DELETE_COMMENT_BEGIN:
+      // Mark the state as "loading".
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+
+    case DELETE_COMMENT_SUCCESS:
+      // All done: set loading "false".
+      let withoutDeletedComment = state.comments.filter(comment => comment.id !== action.details.id);
+      
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        comments: withoutDeletedComment
+      };
+
+    case DELETE_COMMENT_FAILURE:
+      // The request failed. It's done. So set loading to "false".
+      // Save the error, so we can display it somewhere.
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
       };
 
     case TOGGLE_VOTE_COMMENT_BEGIN:
