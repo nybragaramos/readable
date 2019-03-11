@@ -1,9 +1,10 @@
-import { RECEIVE_POSTS_BEGIN, RECEIVE_POSTS_SUCCESS, RECEIVE_POSTS_FAILURE } from '../actions/posts';
+import { RECEIVE_POSTS_BEGIN, RECEIVE_POSTS_SUCCESS, RECEIVE_POSTS_FAILURE, SORT_POSTS } from '../actions/posts';
+import sortBy from 'sort-by';
 
 const initialState = {
 	posts: [],
 	error: null,
-  loading: null
+  loading: null,
 };
 
 export default function posts (state = initialState, action) {
@@ -35,6 +36,12 @@ export default function posts (state = initialState, action) {
         error: action.error,
         posts: []
       };
+    
+    case SORT_POSTS:
+      return {
+        ...state,
+        posts: state.posts.slice(0).sort(sortBy(action.key))
+      }
 
     default:
       return state
