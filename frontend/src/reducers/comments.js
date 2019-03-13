@@ -2,7 +2,8 @@ import { RECEIVE_POST_COMMENTS_BEGIN, RECEIVE_POST_COMMENTS_SUCCESS, RECEIVE_POS
          ADD_COMMENT_BEGIN, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
          EDIT_COMMENT_BEGIN, EDIT_COMMENT_SUCCESS, EDIT_COMMENT_FAILURE,
          DELETE_COMMENT_BEGIN, DELETE_COMMENT_SUCCESS, DELETE_COMMENT_FAILURE,
-         TOGGLE_VOTE_COMMENT_BEGIN, TOGGLE_VOTE_COMMENT_SUCCESS, TOGGLE_VOTE_COMMENT_FAILURE } from '../actions/comments';
+         TOGGLE_VOTE_COMMENT_BEGIN, TOGGLE_VOTE_COMMENT_SUCCESS, TOGGLE_VOTE_COMMENT_FAILURE, SORT_COMMENTS } from '../actions/comments';
+import sortBy from 'sort-by';
 
 const initialState = {
 	comments: [],
@@ -173,6 +174,12 @@ export default function comments (state = initialState, action) {
         ...state,
         error: action.error,
         details: {}
+      };
+
+    case SORT_COMMENTS:
+      return {
+        ...state,
+        comments: state.comments.slice(0).sort(sortBy(action.key))
       };
 
     default:

@@ -1,28 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { handlePostComments} from '../actions/comments';
-import { handleNewComment } from '../actions/comments';
+import { handlePostComments, handleNewComment, sortComments} from '../actions/comments';
 import Comment from '../components/Comment'
 import Loader from '../components/Loader'
 
 class Comments extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      comment:{
-        author: "",
-        body: "",
-        parentId: "",
-      },
-      comments:[],
-      create: false,
-    }
-
-    this.formOpen = this.formOpen.bind(this);
-    this.formClose = this.formClose.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  state = {
+    comment:{
+      author: "",
+      body: "",
+      parentId: "",
+    },
+    comments:[],
+    create: false,
+    property: 'timestamp',
+    order: 'desc'
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
@@ -34,18 +27,31 @@ class Comments extends Component {
 
   componentDidMount() {
     this.props.fetchPostComments(this.state.comment.parentId)
+    .then(() => {
+          this.props.sortComments('-timestamp')
+        })
   }
 
-  /*componentDidUpdate(prevProps) {
-    console.log(prevProps);
-    
-     if (prevProps.id !== this.props.id) {
-       this.props.fetchPostComments(this.props.id)
-     }
-   }*/
+  sortByOrder = (event) => {
+    this.setState({ order: event.target.value });
+    if(event.target.value === 'asc'){
+      this.props.sortComments(this.state.property);
+    } else {
+      this.props.sortComments('-' + this.state.property);
+    }
+  };
+  
+  sortByProperty = (event) => {
+    this.setState({ property: event.target.value });
+    if(this.state.order === 'asc'){
+      this.props.sortComments(event.target.value);
+    } else {
+      this.props.sortComments('-' + event.target.value);
+    }
+  };
 
-  formOpen(){
-    this.setState((prevState) => ({
+  formOpen = () => {
+    this.setState(prevState => ({
       create: true,
       comment:{
         author: "",
@@ -53,13 +59,13 @@ class Comments extends Component {
         parentId: prevState.comment.parentId
       }
     }));
-  }
+  };
 
-  formClose(){
+  formClose = () => {
     this.setState({create: false});
   }
 
-  handleChange(event) {
+  handleChange = event => {
     const name = event.target.name;
     const value = event.target.value;
     this.setState(prevState => ({
@@ -71,7 +77,7 @@ class Comments extends Component {
     }))
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.setState({
         create: false
@@ -89,7 +95,18 @@ class Comments extends Component {
     return(
     <section className='comments'>
       <h2>Comments: </h2>
-      <button onClick={this.formOpen}>New</button>
+      <div className='controls-panel'>
+          <select value={this.state.property} onChange= {this.sortByProperty}>
+            <option value="timestamp">Date</option>
+            <option value="author">Author</option>
+            <option value="voteScore">Vote</option>
+          </select>
+          <select value={this.state.order} onChange= {this.sortByOrder}>
+            <option value="asc">Asc</option>
+            <option value="desc">Desc</option>
+          </select>
+          <button onClick={this.formOpen}>New</button>
+      </div>
       {this.state.create && (
         <div>CREATE
           <section>
@@ -127,7 +144,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPostComments: id => dispatch(handlePostComments(id)),
-  addComment: (comment) => dispatch(handleNewComment(comment)),
+  addComment: comment => dispatch(handleNewComment(comment)),
+  sortComments : category => dispatch(sortComments(category)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)

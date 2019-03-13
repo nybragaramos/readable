@@ -15,6 +15,8 @@ export const TOGGLE_VOTE_COMMENT_FAILURE = 'TOGGLE_VOTE_COMMENT_FAILURE';
 export const DELETE_COMMENT_BEGIN = 'DELETE_COMMENT_BEGIN';
 export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS';
 export const DELETE_COMMENT_FAILURE = 'DELETE_COMMENT_FAILURE';
+export const SORT_COMMENTS = 'SORT_COMMENTS';
+
 
 const toggleVoteBegin = () => ({
   type: TOGGLE_VOTE_COMMENT_BEGIN
@@ -103,6 +105,15 @@ const deleteCommentFailure = error => {
   return {
     type: DELETE_COMMENT_FAILURE,
     error: { error }
+  }
+};
+
+export const sortComments = sortKey => {
+  return dispatch => {
+    dispatch({ 
+      type: SORT_COMMENTS,
+      key: sortKey
+    })
   }
 };
 
