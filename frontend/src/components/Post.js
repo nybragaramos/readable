@@ -4,6 +4,8 @@ import Vote from './Vote'
 import { Link, withRouter } from 'react-router-dom'
 import { handleDeletePost } from '../actions/post'
 import { connect } from 'react-redux';
+import { timeAgo } from '../utils/helper'
+
 
 class Post extends Component {
 
@@ -26,7 +28,7 @@ class Post extends Component {
           <button onClick={() => this.delete(post.id)}>Delete</button>
         </div>
         
-        <p className='author'><FaRegUser/> {post.author} {post.timestamp}</p>
+        <p className='author'><FaRegUser/> {post.author} {timeAgo(post.timestamp)}</p>
         <p>{post.body}</p>
         <Vote likeItem={post} parent='post'/>
       </article>
