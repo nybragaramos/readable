@@ -153,7 +153,7 @@ html {
 
 body {
   
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -226,9 +226,7 @@ p {
    
 
 }
-    /* > *{
-    margin-top:30px;
-    } */
+
 .post-new {
   padding: 16px;
   max-width: 900px;
@@ -432,4 +430,13 @@ p {
   top: calc(50% + 32px);
   @extend  %fade;
   @include prefix(animation-duration, 800ms, webkit moz o);
+}
+
+.not-found {
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 130px);
+  display: flex;
+  justify-content: center; /*centers items on the line (the x-axis by default)*/
+  align-items: center; /*centers items on the cross-axis (y by default)*/
 }

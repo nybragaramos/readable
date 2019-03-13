@@ -4,6 +4,7 @@ import { handleDetails } from '../actions/post';
 import Post from '../components/Post';
 import Comments from './Comments'
 import Loader from '../components/Loader'
+import NotFound from '../components/NotFound'
 
 class PostPage extends Component {
 
@@ -19,24 +20,19 @@ class PostPage extends Component {
       const loading = this.props.loading;
       const details = this.props.details;
       if(error) {
-        return <div>ERROR!</div>
+        return <NotFound/>
       }
       if(loading){
         return <Loader/>
-      } else if((loading === false) && Object.keys(details).length !== 0){
+      } else {
           return (
             <Fragment>
               <Post post={details}/>
               <Comments id={details.id}/>
             </Fragment>
           )
-        } else if((loading === false) && Object.keys(details).length === 0){
-          return(
-            <h1>Post Not Found</h1>
-          )
       }
     }
-    return null;
   }
 }
 

@@ -19,6 +19,8 @@ class Comments extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
+    console.log('next ' + nextProps.id)
+    console.log('prev ' + prevState.parentId)
     if(nextProps.id !== prevState.parentId){
       return {comment: {...prevState.comment, parentId: nextProps.id}}
     }
@@ -26,10 +28,13 @@ class Comments extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchPostComments(this.state.comment.parentId)
-    .then(() => {
+    if(this.state.comment.parentId){
+      this.props.fetchPostComments(this.state.comment.parentId)
+      .then(() => {
           this.props.sortComments('-timestamp')
         })
+    }
+    
   }
 
   sortByOrder = (event) => {
