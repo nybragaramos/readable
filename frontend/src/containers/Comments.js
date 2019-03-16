@@ -19,8 +19,6 @@ class Comments extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
-    console.log('next ' + nextProps.id)
-    console.log('prev ' + prevState.parentId)
     if(nextProps.id !== prevState.parentId){
       return {comment: {...prevState.comment, parentId: nextProps.id}}
     }
@@ -34,8 +32,18 @@ class Comments extends Component {
           this.props.sortComments('-timestamp')
         })
     }
+
+    if (this.multilineTextarea) {
+      this.multilineTextarea.style.height = "auto";
+    }
     
   }
+
+  changeTextarea = () => {
+    this.multilineTextarea.style.height = 'auto';
+    this.multilineTextarea.style.height =
+      (this.multilineTextarea.scrollHeight + 4 ) + "px";
+  };
 
   sortByOrder = (event) => {
     this.setState({ order: event.target.value });
@@ -48,12 +56,16 @@ class Comments extends Component {
   
   sortByProperty = (event) => {
     this.setState({ property: event.target.value });
-    if(this.state.order === 'asc'){
-      this.props.sortComments(event.target.value);
-    } else {
-      this.props.sortComments('-' + event.target.value);
-    }
+    this.sort(event.target.value);
   };
+
+  sort = (value) => {
+    if(this.state.order === 'asc'){
+      this.props.sortComments(value);
+    } else {
+      this.props.sortComments('-' + value);
+    }
+  }
 
   formOpen = () => {
     this.setState(prevState => ({
@@ -80,6 +92,8 @@ class Comments extends Component {
           [name]: value
       }
     }))
+
+    this.changeTextarea();
   }
 
   handleSubmit = event => {
@@ -87,7 +101,11 @@ class Comments extends Component {
     this.setState({
         create: false
       })
-    this.props.addComment(this.state.comment);
+    this.props.addComment(this.state.comment)
+    .then(() => {
+          this.sort(this.state.property)
+        })
+
   }
 
   render() {
@@ -98,8 +116,7 @@ class Comments extends Component {
     }
 
     return(
-    <section className='comments'>
-      <h2>Comments: </h2>
+    <section className='comments' aria-label="Comments">
       <div className='controls-panel'>
           <select value={this.state.property} onChange= {this.sortByProperty}>
             <option value="timestamp">Date</option>
@@ -110,30 +127,24 @@ class Comments extends Component {
             <option value="asc">Asc</option>
             <option value="desc">Desc</option>
           </select>
-          <button onClick={this.formOpen}>New</button>
+          <button onClick={this.formOpen}>New Comment</button>
       </div>
       {this.state.create && (
-        <div>CREATE
-          <section>
-            <form className='comment-form' onSubmit={this.handleSubmit}>
+            <form className='comment-form' onSubmit={this.handleSubmit} aria-label="New Comment">
               <div className='comment-form-group'>
-                <label className='comment-form-element'>Author</label>
-                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' maxLength="150" required />
+                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' placeholder='Author' aria-label='Author' maxLength="150" required />
+                <textarea value={this.state.comment.body} onChange={this.handleChange} name='body' rows="2" placeholder='Comment...' aria-label='Comment' ref={ref => (this.multilineTextarea = ref)} required />
               </div>
-              <div className='comment-form-group'>
-                <label className='comment-form-element'>Comment</label>
-                <textarea value={this.state.comment.body} onChange={this.handleChange} name='body' rows="5" required />
+              <div className='comment-form-buttons'>
+                <input type="submit" value="Comment" />
+                <button onClick={this.formClose} className="button-bto">Cancel</button>
               </div>
-              <input type="submit" value="Submit" />
             </form>
-          </section>
-          <button onClick={this.formClose}>Cancel</button>
-        </div>
       )}
       {loading === false 
         ? (comments.length > 0
             ? comments.map(comment => <Comment comment={comment} key={comment.id}/>)
-            : <h1>No Comments</h1>)
+            : <p>Be the first one to leave a comment!</p>)
         : <Loader class='comments'/>
       }
     </section>
