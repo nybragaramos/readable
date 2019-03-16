@@ -4,7 +4,7 @@ $light-color: #6c757d;
 $strong-color: orange;
 $fail-color: red;
 $success-color: green;
-$basic-color: #f1f2f3;
+$basic-color: #fff;
 /*$basic-color: #F9FAFB;
  $basic-color: #dee2e6; */
 $blue-color: #00a1ba;
@@ -156,6 +156,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 h1, h2, h3, p, ul, li {
@@ -167,9 +168,15 @@ p {
   line-height: 1.6; 
 }
 
+button {
+  cursor:pointer;
+}
+
 .app {
   background-color: white;
   height: 100%;
+  font-size: 1em;
+
 }
 
 .app-header {
@@ -190,10 +197,12 @@ p {
   top:0;
   width: 100%;
   list-style: none;
+  z-index: 100;
   @extend %flex-basic;
   @include justify-content(center);
   padding: 0;
   background-color: $basic-color;
+  border-bottom: 1px solid #dee2e6;
   a {
     display:block;
     text-decoration: none;
@@ -215,16 +224,27 @@ p {
   @extend %flex-basic;
   @include justify-content(center);
 
+  select {
+    margin: 0 8px;
+  }
+
+  button {
+    padding: 0.5em;
+    background-color: $blue-color;
+    color: $basic-color;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    padding: 0.5em;
+    @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+    &:hover, &:focus {
+      background-color: $strong-color;
+      cursor: pointer;
+    }
+  }
   .open-post-new{
     @include linkLikeBtn($blue-color, $strong-color, $basic-color);
     margin: 0 8px;
   }
-
-  select {
-    margin: 0 8px;
-  }
-   
-
 }
 
 .post-new {
@@ -288,9 +308,8 @@ p {
   margin: 1.5em 1em;
   padding: 1.5em 1em 1em 1em;
   border-radius: 10px;
-  background-color: $basic-color;
   min-width: 316px;
-
+  @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
   .category {
      @include linkLikeBtn($strong-color, $blue-color, $basic-color);
   }
@@ -307,15 +326,7 @@ p {
     padding-right: 1em;
 
     p {
-      @include multiLineEllipsis(1.6em, 2, $basic-color);
-    }
-  }
-
-  .author {
-    font-size: 1em;
-
-    span {
-      color: $light-color;
+      @include multiLineEllipsis(1.6em, 2, #fff);
     }
   }
 
@@ -325,16 +336,10 @@ p {
     div {
       color: $light-color;
       margin: 0 6px;
-    }
-  } 
 
-  .footer {
-    @extend %flex-basic;
-    @include justify-content(space-between);
-    padding-top: 8px;
-    margin-top:8px;
-    border-top: 1px solid #dee2e6;
-  }
+    }
+    padding: 0 0 0 16px;
+  } 
 
   .icons {
     @extend %flex-basic;
@@ -353,44 +358,84 @@ p {
   }
 }
 
+.author {
+    font-size: 1em;
+    color: $light-color;
+    svg {
+      color: $blue-color;
+    }
+  }
+
 .post {
   margin: 1.5em 1em;
   padding: 1.5em 2em 1em 1em;
   border-radius: 10px;
-  background-color: $basic-color;
-
-  .header{
+  @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+  header{
      @extend %flex-basic;
 
      h2 {
       width: 100%;
      }
   }
-
-  .author {
-    font-size: 1em;
-    svg {
-      color: $blue-color;
-    }
-  }
   
   .edit{
-    @include linkLikeBtn ($basic-color,$secondary-color,$strong-color);
+    text-decoration: none;
+    background-color: $basic-color;
+    color: $blue-color;
+    border: 1px solid transparent;
+    padding: 0.5em;
+    border-radius: 5px;
+    &:hover, &:focus {
+      border: 1px solid $strong-color;
+      cursor: pointer;
+    }
   }
 
+  
+}
+
+footer {
+    @extend %flex-basic;
+    @include justify-content(space-between);
+    padding-top: 8px;
+    margin-top:8px;
+    border-top: 1px solid #dee2e6;
+  }
+
+.delete, .edit {
+  background-color: $basic-color;
+  color: $blue-color;
+  padding: 0.7em;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  margin: 0 4px;
+  svg {
+    color: $blue-color;
+  }
+  &:hover, &:focus {
+    border: 1px solid $strong-color;
+    cursor: pointer;
+  }
 }
 
 .vote {
   @extend %flex-basic;  
     
   button {
-    background: $basic-color;
+    background: #fff;
     font-size: 1.2em;
     color: $blue-color;
     border: 1px solid;
     border-radius: 100%;
     padding: 5px 6px 1px 6px;
-    margin: 0 4px; 
+    margin: 0 4px;
+
+    &:hover, &:focus {
+      border: 1px solid $strong-color;
+      color: $strong-color;
+      cursor: pointer;
+    }
   }
 
   div {
@@ -411,16 +456,77 @@ p {
 .comments {
   margin: 1.5em 1em;
   padding: 1.5em 2em 1em 1em;
-  background-color:#CCCCCC;
   position:relative;
   min-height: 200px;
-  
+
+  .comment-form{
+
+    margin: 1.5em 1em;
+    padding: 1.5em 2em 1em 1em;
+    border-radius: 10px;
+    @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+
+    .comment-form-group{
+      input {
+        font-size: 1em;
+        width: 50%;
+        line-height: 1.6;
+      }
+
+      textarea {
+        font-size: 1em;
+        line-height: 1.6;
+        width: 100%;
+        margin: 1em 0;
+        resize: none;
+        font-family: Arial,sans-serif;
+      }
+
+
+    }
+
+    .comment-form-buttons{
+      @extend %flex-basic;
+      @include justify-content(flex-end);
+      button, input {
+        padding: 0.5em;
+        background-color: $blue-color;
+        color: $basic-color;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        padding: 0.5em;
+        @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+        &:hover, &:focus {
+          background-color: $strong-color;
+          cursor: pointer;
+        }
+      }
+      button {
+        margin-left: 16px;
+      }
+    }
+  }
+
   .comment {
-  margin: 1.5em 1em;
-  padding: 1.5em 2em 1em 1em;
-  border-radius: 10px;
-  background-color: $basic-color;
-}
+    margin: 1.5em 1em;
+    padding: 1.5em 2em 1em 1em;
+    border-radius: 10px;
+    @include prefix(box-shadow, 5px 5px 36px -5px rgba(138,134,138,0.87), webkit moz);
+
+    svg {
+      color: $blue-color;
+    }
+
+    header{
+      @extend %flex-basic;
+    }
+
+    p {
+      width: 100%;
+      white-space: pre-wrap;
+    }
+
+  }
 }
 
 .loader {
@@ -437,6 +543,6 @@ p {
   width: 100%;
   height: calc(100vh - 130px);
   display: flex;
-  justify-content: center; /*centers items on the line (the x-axis by default)*/
-  align-items: center; /*centers items on the cross-axis (y by default)*/
+  justify-content: center; 
+  align-items: center; 
 }

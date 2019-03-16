@@ -1,5 +1,5 @@
 import React, { Component, } from 'react'
-import { FaRegUser/*, FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegComment, FaRegCommentDots*/ } from 'react-icons/fa';
+import { FaRegUser, FaEdit, FaTrashAlt/*, FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegComment, FaRegCommentDots*/ } from 'react-icons/fa';
 import Vote from './Vote'
 import { Link, withRouter } from 'react-router-dom'
 import { handleDeletePost } from '../actions/post'
@@ -22,15 +22,18 @@ class Post extends Component {
 
     return (
       <article className='post'>
-        <div className='header'>
+        <header>
           <h2>{post.title}</h2>
-          <Link to={'/' + post.category + '/' + post.id + '/edit'} className='edit'>Edit</Link>
-          <button onClick={() => this.delete(post.id)}>Delete</button>
-        </div>
+          <Link to={'/' + post.category + '/' + post.id + '/edit'} className='edit' aria-label='Edit'><FaEdit/></Link>
+          <button onClick={() => this.delete(post.id)} className='delete' aria-label='Delete'><FaTrashAlt/></button>
+        </header>
         
         <p className='author'><FaRegUser/> {post.author} {timeAgo(post.timestamp)}</p>
         <p>{post.body}</p>
-        <Vote likeItem={post} parent='post'/>
+        <footer>
+          <Vote likeItem={post} parent='post'/>  
+        </footer>
+        
       </article>
     )
   }

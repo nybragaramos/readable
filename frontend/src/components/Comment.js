@@ -1,7 +1,7 @@
 import React, { Component, Fragment} from 'react'
-/*import { Link } from 'react-router-dom'
-import { FaThumbsUp, FaRegThumbsUp, FaThumbsDown, FaRegThumbsDown, FaRegUser, FaRegComment, FaRegCommentDots } from 'react-icons/fa';
-import { timeAgo } from '../utils/helper'*/
+// import { Link } from 'react-router-dom'
+import { FaRegUser, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { timeAgo } from '../utils/helper'
 import Vote from './Vote'
 import { connect } from 'react-redux';
 import { handleEditComment, handlePostComments, handleDeleteComment } from '../actions/comments';
@@ -95,11 +95,15 @@ class Comment extends Component {
             </form>
           </section>) : (
           <Fragment>
-            <button onClick={this.formOpen}>Edit</button>
-            <button onClick={this.delete}>Delete</button>
-            <h2>{this.state.comment.author}</h2>
+            <header>
+            <p className='author'><FaRegUser/> {this.state.comment.author} {timeAgo(this.state.comment.timestamp)}</p>
+            <button onClick={this.formOpen} className="edit" aria-label="Edit"><FaEdit/></button>
+            <button onClick={this.delete} className="delete" aria-label="Delete"><FaTrashAlt/></button>
+            </header>
             <p>{this.state.comment.body}</p>
+            <footer>
             <Vote likeItem={this.state.comment} parent='comments'/>
+            </footer>
           </Fragment>
           )
         }
