@@ -20,4 +20,5 @@ Open http://localhost:3000 to view it in the browser.
 [Redux](https://redux.js.org/)<br />
 [Loading Bar](https://www.npmjs.com/package/react-redux-loading)<br />
 [React Router](https://reacttraining.com/react-router/)<br />
-Textarea [based on] (https://codesandbox.io/s/pkp0jwpm4j) 
+Textarea [based on](https://codesandbox.io/s/pkp0jwpm4j) 
+[Sort-by](https://www.npmjs.com/package/sort-by)
