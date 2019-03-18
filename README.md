@@ -1,22 +1,23 @@
-# Readable API Server
+# Readable
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+This is a Udacity Readable Project from Udacity React Nanodegree.
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+## To run this application
 
-## Start Developing
-
-To get started developing right away:
-
-* Install and start the API server
-    - `cd api-server`
-    - `npm install`
-    - `node server`
-* In another terminal window, use Create React App to scaffold out the front-end
-    - `create-react-app frontend`
+    - `git clone https://github.com/nybragaramos/readable.git`
+    - `cd readable`
     - `cd frontend`
-    - `npm start`
+    - `yarn install`
+    - `yarn start`
 
-## API Server
+Open http://localhost:3000 to view it in the browser.
 
-Information about the API server and how to use it can be found in its [README file](api-server/README.md).
+## Project Tools
+[Yarn](https://yarnpkg.com/)<br />
+[Create React App](https://github.com/facebook/create-react-app)<br />
+[React Redux](https://redux.js.org/basics/usage-with-react)<br />
+[React Icons](https://react-icons.netlify.com/#/)<br />
+[Redux](https://redux.js.org/)<br />
+[Loading Bar](https://www.npmjs.com/package/react-redux-loading)<br />
+[React Router](https://reacttraining.com/react-router/)<br />
+Textarea [based on] (https://codesandbox.io/s/pkp0jwpm4j) 
