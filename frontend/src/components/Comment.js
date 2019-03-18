@@ -8,9 +8,7 @@ import { handleEditComment, handlePostComments, handleDeleteComment } from '../a
 
 class Comment extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       comment:{
         author: "",
         body: "",
@@ -22,51 +20,11 @@ class Comment extends Component {
       edit: false,
     }
 
-    this.formOpen = this.formOpen.bind(this);
-    this.formClose = this.formClose.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.delete = this.delete.bind(this);
-  }
-
-  formOpen(){
-    this.setState({edit: true});
-  }
-
-  formClose(){
-    this.setState({edit: false});
-  }
-
-  delete(){
-    //console.log(this.state);
-    this.props.deleteComment(this.state.comment.id);
-  }
-
-  handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState(prevState => ({
-      
-      comment: {
-          ...prevState.comment,
-          [name]: value
-      }
-    }))
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-      this.setState({
-          edit: false
-        })
-      this.props.editComment(this.state.comment);
-  }
-
   static getDerivedStateFromProps(nextProps, prevState){
     if(prevState.comment){
       if(nextProps.comment.id !== prevState.comment.id){
         return {comment: nextProps.comment};
-      } else{
+      } else {
         if(nextProps.comment.voteScore !== prevState.comment.voteScore){
           return {comment: {...prevState.comment,
                           voteScore: nextProps.comment.voteScore}}
@@ -76,33 +34,82 @@ class Comment extends Component {
     return null;
   }
 
+  changeTextarea = () => {
+    if (this.multilineTextarea) {
+      console.log('multilineTextarea')
+      this.multilineTextarea.style.height = 'auto';
+      this.multilineTextarea.style.height =
+      (this.multilineTextarea.scrollHeight + 4 ) + "px";
+    }
+  }
+
+  handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState(prevState => ({
+      
+      comment: {
+          ...prevState.comment,
+          [name]: value
+      }
+    }))
+    this.changeTextarea();
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+        edit: false
+      })
+    this.props.editComment(this.state.comment);
+  }
+
+  formOpen = () => {
+    
+    this.setState(prevState => ({
+      comment:{
+        ...prevState.comment
+      },      
+      edit: true
+    }))
+    this.changeTextarea();
+  }
+
+  formClose = () => {
+    this.setState(prevState => ({      
+      comment: this.props.comment
+    }))
+    this.setState({edit: false});
+  }
+
+  delete = () => {
+    this.props.deleteComment(this.state.comment.id);
+  }
+
   render() {
     return (        
       <article className='comment' key={this.state.comment.id}>
         {this.state.edit ? (
-          <section>
-            <form className='comment-form' onSubmit={this.handleSubmit}>
+            <form className='comment-form' onSubmit={this.handleSubmit} aria-label="Edit Comment">
               <div className='comment-form-group'>
-                <label className='comment-form-element'>Author</label>
-                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' maxLength="150" required />
+                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' placeholder='Author' aria-label='Author' maxLength="32" required />
+                <textarea value={this.state.comment.body} onChange={this.handleChange} onFocus={this.changeTextarea} name='body' placeholder='Comment...' aria-label='Comment' ref={ref => (this.multilineTextarea = ref)} required />
               </div>
-              <div className='comment-form-group'>
-                <label className='comment-form-element'>Comment</label>
-                <textarea value={this.state.comment.body} onChange={this.handleChange} name='body' rows="5" required />
+              <div className='form-buttons'>
+                <input type="submit" value="Comment" />
+                <input type="button" value="Cancel" onClick={this.formClose}/>
               </div>
-              <input type="submit" value="Submit" />
-              <button onClick={this.formClose}>Cancel</button>
             </form>
-          </section>) : (
+          ) : (
           <Fragment>
             <header>
-            <p className='author'><FaRegUser/> {this.state.comment.author} {timeAgo(this.state.comment.timestamp)}</p>
-            <button onClick={this.formOpen} className="edit" aria-label="Edit"><FaEdit/></button>
-            <button onClick={this.delete} className="delete" aria-label="Delete"><FaTrashAlt/></button>
+              <p className='author'><FaRegUser/>{this.state.comment.author} {timeAgo(this.state.comment.timestamp)}</p>
+              <button onClick={this.formOpen} className="edit-comment" aria-label="Edit"><FaEdit/></button>
+              <button onClick={this.delete} className="delete" aria-label="Delete"><FaTrashAlt/></button>
             </header>
             <p>{this.state.comment.body}</p>
             <footer>
-            <Vote likeItem={this.state.comment} parent='comments'/>
+              <Vote likeItem={this.state.comment} parent='comments'/>
             </footer>
           </Fragment>
           )

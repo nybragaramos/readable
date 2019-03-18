@@ -24,14 +24,14 @@ class Post extends Component {
       <article className='post'>
         <header>
           <h2>{post.title}</h2>
-          <Link to={'/' + post.category + '/' + post.id + '/edit'} className='edit' aria-label='Edit'><FaEdit/></Link>
+          <Link to={'/' + post.category + '/' + post.id + '/edit'} className='edit-post' aria-label='Edit'><FaEdit/></Link>
           <button onClick={() => this.delete(post.id)} className='delete' aria-label='Delete'><FaTrashAlt/></button>
         </header>
         
-        <p className='author'><FaRegUser/> {post.author} {timeAgo(post.timestamp)}</p>
-        <p>{post.body}</p>
+        <p className='author'><FaRegUser/>{post.author} {timeAgo(post.timestamp)}</p>
+        <p className='body'>{post.body}</p>
         <footer>
-          <Vote likeItem={post} parent='post'/>  
+          <Vote likeItem={post} parent='post'/>
         </footer>
         
       </article>

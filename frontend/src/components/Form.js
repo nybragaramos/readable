@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { handleNewPost, handleEditPost } from '../actions/post';
 import { withRouter } from 'react-router-dom';
+
 class Form extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       post: {
         id: '',
         title: '',
@@ -16,10 +15,6 @@ class Form extends Component {
       },
       edit:false,
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
 
   static getDerivedStateFromProps(props, state){
     if(props.post){
@@ -36,7 +31,19 @@ class Form extends Component {
     }
   }
 
-  handleChange(event) {
+  componentDidMount() {
+    if (this.multilineTextarea) {
+      this.changeTextarea();
+    }
+  }
+
+  changeTextarea = () => {
+    this.multilineTextarea.style.height = 'auto';
+    this.multilineTextarea.style.height =
+      (this.multilineTextarea.scrollHeight + 4 ) + "px";
+  }
+
+  handleChange = event => {
     const name = event.target.name;
     const value = event.target.value;
     this.setState(prevState => ({      
@@ -45,9 +52,10 @@ class Form extends Component {
           [name]: value
       }
     }))
+    this.changeTextarea();
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     if(this.state.edit){
       this.props.editPost(this.state.post)
@@ -62,7 +70,14 @@ class Form extends Component {
     }
   }
 
-  formClose(){
+  formClose = () => {
+
+    if(this.state.edit === true){
+      this.setState(prevState => ({      
+        post: this.props.post
+      }))
+    }
+    this.props.history.goBack();
 
   }
 
@@ -73,7 +88,7 @@ class Form extends Component {
       <form className='post-form' onSubmit={this.handleSubmit}>
         <div className='post-form-group'>
           <label className='post-form-element'>Title</label>
-          <input value={this.state.post.title} type='text' onChange={this.handleChange} name='title' maxLength="150" required />
+          <input value={this.state.post.title} type='text' onChange={this.handleChange} name='title' maxLength="32" required />
         </div>
         <div className='post-form-group'>
           <label className='post-form-element'>Author</label>
@@ -92,11 +107,11 @@ class Form extends Component {
         </div>
         <div className='post-form-group'>
           <label className='post-form-element'>Post</label>
-          <textarea value={this.state.post.body} onChange={this.handleChange} name='body' rows="10" required />
+          <textarea value={this.state.post.body} onChange={this.handleChange} ref={ref => (this.multilineTextarea = ref)} name='body' rows="10" required />
         </div>
-        <div>
+        <div className='form-buttons'>
           <input type="submit" value="Submit" />
-          <button onClick={this.props.history.goBack}>Cancel</button>
+          <input type="button" value="Cancel" onClick={this.formClose} />
         </div>
       </form>
     </div>

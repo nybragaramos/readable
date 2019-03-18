@@ -7,7 +7,7 @@ class Posts extends Component {
     const { posts } = this.props;
 
     return (
-      <div>
+      <section aria-label="Posts Cards">
         { 
           posts.map(post => {
               if(post.deleted === false)
@@ -17,7 +17,7 @@ class Posts extends Component {
             }
           )
         }
-      </div>
+      </section>
     )
   }
 }

@@ -32,11 +32,6 @@ class Comments extends Component {
           this.props.sortComments('-timestamp')
         })
     }
-
-    if (this.multilineTextarea) {
-      this.multilineTextarea.style.height = "auto";
-    }
-    
   }
 
   changeTextarea = () => {
@@ -86,7 +81,6 @@ class Comments extends Component {
     const name = event.target.name;
     const value = event.target.value;
     this.setState(prevState => ({
-      
       comment: {
           ...prevState.comment,
           [name]: value
@@ -105,7 +99,6 @@ class Comments extends Component {
     .then(() => {
           this.sort(this.state.property)
         })
-
   }
 
   render() {
@@ -130,14 +123,14 @@ class Comments extends Component {
           <button onClick={this.formOpen}>New Comment</button>
       </div>
       {this.state.create && (
-            <form className='comment-form' onSubmit={this.handleSubmit} aria-label="New Comment">
+            <form className='comment-new' onSubmit={this.handleSubmit} aria-label="New Comment">
               <div className='comment-form-group'>
-                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' placeholder='Author' aria-label='Author' maxLength="150" required />
+                <input value={this.state.comment.author} type='text' onChange={this.handleChange} name='author' placeholder='Author' aria-label='Author' maxLength="32" required />
                 <textarea value={this.state.comment.body} onChange={this.handleChange} name='body' rows="2" placeholder='Comment...' aria-label='Comment' ref={ref => (this.multilineTextarea = ref)} required />
               </div>
-              <div className='comment-form-buttons'>
+              <div className='form-buttons'>
                 <input type="submit" value="Comment" />
-                <button onClick={this.formClose} className="button-bto">Cancel</button>
+                <input type="button" value="Cancel" onClick={this.formClose}/>
               </div>
             </form>
       )}
